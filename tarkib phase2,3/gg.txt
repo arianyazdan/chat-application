@@ -1,0 +1,6 @@
+sender server : arian Created gg
+sender server : arian Joined
+sender arian : salam 
+sender arian : khobi 
+sender arian : w 
+sender arian : wwq 

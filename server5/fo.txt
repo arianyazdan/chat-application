@@ -1,0 +1,11 @@
+sender server : arian Created slam1
+sender arian : salam 
+sender arian : khobi 
+sender arian : chetory 
+sender arian : merciry 
+sender server : arian Joined
+sender server : arian Joined
+sender server : arian Joined
+sender server : arian Joined
+sender server : arian Joined
+sender arian : salam 
