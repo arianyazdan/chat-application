@@ -26,3 +26,5 @@ sender server : arian Joined
 sender server : arian Joined
 sender arian : khobi 
 sender server : arian Joined
+sender server : arian Joined
+sender arian : salam 

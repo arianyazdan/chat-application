@@ -285,10 +285,21 @@ void login(char * buffer)
     char pass1[100];
     int flag = 0;
     int flag1 = 0;
+    int fla = 0;
     sscanf(buffer + 5,"%s %s",name,pass);
     name[strlen(name)-1]='\0';
     FILE* fptr = fopen("database.txt","a+");
     rewind(fptr);
+    for (int i = 0 ; i < 100 ; i++)
+    {
+        if (strcmp(name,yaroo[i].username)== 0 && yaroo[i].a == 1)
+        {
+            fla = 1;
+        }
+
+    }
+    if (fla == 0)
+    {
     while (true)
     {
         char c = fgetc(fptr);
@@ -304,7 +315,7 @@ void login(char * buffer)
             {
                 flag = 1;
             }
-            if (strcmp(pass1,pass) == 0)
+            if (strcmp(name1,name) == 0 && strcmp(pass1,pass) == 0)
             {
                 flag1 = 1;
             }
@@ -359,7 +370,17 @@ void login(char * buffer)
 
         cJSON_Delete(res);
     }
-
+    }
+    else
+    {
+        cJSON *res;
+        res = cJSON_CreateObject();
+        cJSON_AddItemToObject(res,"type",cJSON_CreateString("Error"));
+        cJSON_AddItemToObject(res,"content",cJSON_CreateString("This user is online"));
+        ans = cJSON_PrintUnformatted(res);
+        printf("%s",ans);
+        cJSON_Delete(res);
+    }
 
 }
 void autt()
