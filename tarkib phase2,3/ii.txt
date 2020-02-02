@@ -1,0 +1,10 @@
+sender server : arian Created ii
+sender arian : salam 
+sender arian : khobi 
+sender arian : hh 
+sender server : ss Joined
+sender ss : ghorboonet 
+sender ss : beram 
+sender ss : man 
+sender ss : woqiwo 
+sender arian : wwweeeqweqweqweqweqwadjfhasjkfasdgfsad 

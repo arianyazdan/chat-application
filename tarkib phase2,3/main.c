@@ -17,7 +17,7 @@ void arr(char * s);
 void additemtoarr (char * s, char *r);
 int server_socket, client_socket;
 int channelcheck(int sh);
-char * ans;
+char ans[1000];
 char auth[100];
 char auth_token[100];
 void reg(char *buffer);
@@ -265,7 +265,7 @@ void reg(char*buffer)
         obj(res);
         additemtoobj(res,"type","Succesfull");
         additemtoobj(res,"content","");
-        ans = res;
+        strcpy(ans ,res);
         printf("%s",ans);
     }
     if (flag == 1)
@@ -274,7 +274,7 @@ void reg(char*buffer)
         obj(res);
         additemtoobj(res,"type","Error");
         additemtoobj(res,"content","this username is not available");
-        ans = res;
+         strcpy(ans ,res);
         printf("%s",ans);
     }
 
@@ -333,7 +333,7 @@ void login(char * buffer)
         additemtoobj(res,"type","Error");
         additemtoobj(res,"content","Username is not valid");
         printf("%s",ans);
-        ans = res;
+         strcpy(ans ,res);
         //cJSON_Delete(res);
     }
     else if (flag1 == 0)
@@ -342,7 +342,7 @@ void login(char * buffer)
         obj(res);
         additemtoobj(res,"type","Error");
         additemtoobj(res,"content","Wrong password");
-        ans = res;
+         strcpy(ans ,res);
         printf("%s",ans);
     }
     else
@@ -368,7 +368,7 @@ void login(char * buffer)
         strcpy(yaroo[sh].username,name);
         strcpy(yaroo[sh].password,pass);
         strcpy(yaroo[sh].auth_tokenu,auth_token);
-        ans = res;
+         strcpy(ans ,res);
         //printf("%s",ans);
 
     //    cJSON_Delete(res);
@@ -381,7 +381,7 @@ void login(char * buffer)
         additemtoobj(res,"type","Error");
         additemtoobj(res,"content","This user is online");
         printf("%s",ans);
-        ans = res;
+         strcpy(ans ,res);
     }
 
 
@@ -446,7 +446,7 @@ void create(char*buffer)
             obj(res);
             additemtoobj(res,"type","Error");
             additemtoobj(res,"content","Channel name is not available");
-            ans = res;
+             strcpy(ans ,res);
             printf("%s",ans);
             //cJSON_Delete(res);
         }
@@ -460,7 +460,7 @@ void create(char*buffer)
             obj(res);
             additemtoobj(res,"type","Succesfull");
             additemtoobj(res,"content","");
-            ans = res;
+             strcpy(ans ,res);
             printf("%s",ans);
             strcpy(channel_name1,channel_name);
             strcat(channel_name,".txt");
@@ -479,7 +479,7 @@ void create(char*buffer)
         obj(res);
         additemtoobj(res,"type","Error");
         additemtoobj(res,"content","Channel name is not available");
-        ans = res;
+        strcpy(ans ,res);
         printf("%s",ans);
         //cJSON_Delete(res);
     }
@@ -532,7 +532,7 @@ void join(char *buffer)
             obj(res);
             additemtoobj(res,"type","Error");
             additemtoobj(res,"content","Channel name is not valid");
-            ans = res;
+             strcpy(ans ,res);
             printf("%s",ans);
             //cJSON_Delete(res);
         }
@@ -544,7 +544,7 @@ void join(char *buffer)
             obj(res);
             additemtoobj(res,"type","Succesfull");
             additemtoobj(res,"content","");
-            ans = res;
+             strcpy(ans ,res);
             printf("%s",ans);
             strcat(channel_name,".txt");
             FILE *fptr1 = fopen(channel_name,"a+");
@@ -561,7 +561,7 @@ void join(char *buffer)
             obj(res);
             additemtoobj(res,"type","Error");
             additemtoobj(res,"content","Authtoken is not valid");
-            ans = res;
+            strcpy(ans ,res);
     }
 }
 void sendch(char * buffer)
@@ -591,7 +591,7 @@ void sendch(char * buffer)
         obj(res);
         additemtoobj(res,"type","Succesfull");
         additemtoobj(res,"content","");
-        ans = res;
+        strcpy(ans ,res);
         printf("%s",ans);
         strcat(channel_name,".txt");
         FILE *fptr1 = fopen(channel_name,"a+");
@@ -606,7 +606,7 @@ void sendch(char * buffer)
             obj(res);
             additemtoobj(res,"type","Error");
             additemtoobj(res,"content","Authtoken is not valid");
-            ans = res;
+            strcpy(ans ,res);
     }
 }
 void refresh(char*buffer)
@@ -672,7 +672,7 @@ void refresh(char*buffer)
         yaroo[sh].fp=ftell(fptr);
         fclose(fptr);
         additemtoobj(res,"message",cmessage);
-        ans =  res;
+         strcpy(ans ,res);
         printf("%s",ans);
         //cJSON_Delete(res);
 
@@ -683,7 +683,7 @@ void refresh(char*buffer)
             obj(res);
             additemtoobj(res,"type","Error");
             additemtoobj(res,"content","Authtoken is not valid");
-            ans = res;
+            strcpy(ans ,res);
     }
 }
 void channel_members(char * buffer)
@@ -715,7 +715,7 @@ void channel_members(char * buffer)
             }
         }
         additemtoobj(res,"content",channel_members1);
-        ans = res;
+         strcpy(ans ,res);
         printf("%s",ans);
        // cJSON_Delete(res);
     }
@@ -725,7 +725,7 @@ void channel_members(char * buffer)
             obj(res);
             additemtoobj(res,"type","Error");
             additemtoobj(res,"content","Authtoken is not valid");
-            ans = res;
+             strcpy(ans ,res);
     }
 }
 void leave (char *buffer)
@@ -748,12 +748,18 @@ void leave (char *buffer)
             obj(res);
             additemtoobj(res,"type","Error");
             additemtoobj(res,"content","Authtoken is not valid");
-            ans = res;
+             strcpy(ans ,res);
     }
     else
     {
     if (channelcheck(sh))
     {
+        char channel_name[100];
+        strcpy(channel_name,yaroo[sh].channel_name_user);
+        strcat(channel_name,".txt");
+        FILE *fptr = fopen(channel_name,"a+");
+        fprintf(fptr,"sender server : %s leaved the channel\n" , yaroo[sh].username);
+        fclose(fptr);
         yaroo[sh].b=0;
         strcpy(yaroo[sh].channel_name_user,"0");
         yaroo[sh].fp=0;
@@ -762,7 +768,7 @@ void leave (char *buffer)
         obj(res);
         additemtoobj(res,"type","Succesfull");
         additemtoobj(res,"content","");
-        ans = res;
+         strcpy(ans ,res);
         printf("%s",ans);
     }
     else
@@ -772,7 +778,7 @@ void leave (char *buffer)
         obj(res);
         additemtoobj(res,"type","Error");
         additemtoobj(res,"content","He is not a member of the channel");
-        ans = res;
+         strcpy(ans ,res);
         printf("%s",ans);
     }
     }
@@ -798,11 +804,17 @@ void logout(char*buffer)
         strcpy(yaroo[sh].username , "0");
         strcpy(yaroo[sh].password,"0");
         strcpy(yaroo[sh].auth_tokenu,"0");
+        char channel_name[100];
+        strcpy(channel_name,yaroo[sh].channel_name_user);
+        strcat(channel_name,".txt");
+        FILE *fptr = fopen(channel_name,"a+");
+        fprintf(fptr,"%s leaved the channel" , yaroo[sh].username);
+        fclose(fptr);
         char res[100];
         obj(res);
         additemtoobj(res,"type","Succesfull");
         additemtoobj(res,"content","");
-        ans = res;
+        strcpy(ans ,res);
         printf("%s",ans);
         printf("%s",ans);
         //cJSON_Delete(res);
@@ -814,7 +826,7 @@ void logout(char*buffer)
             obj(res);
             additemtoobj(res,"type","Error");
             additemtoobj(res,"content","Authtoken is not valid");
-            ans = res;
+             strcpy(ans ,res);
     }
 }
 
