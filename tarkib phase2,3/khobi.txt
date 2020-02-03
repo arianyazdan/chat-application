@@ -7,3 +7,10 @@ sender arian : khobiobi
 sender arian : wwobiobi 
 sender arian : ssobiobi 
 sender arian : qqobiobi 
+sender server : kl Joined
+sender kl : slaam 
+sender kl : khobi 
+sender server : ariankhan Joined
+sender server : ariankhan leaved the channel
+sender server : ariankhan Joined
+sender server : ariankhan leaved the channel

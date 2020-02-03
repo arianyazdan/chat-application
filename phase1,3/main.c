@@ -4,13 +4,67 @@
 #include <stdlib.h>
 #include <string.h>
 #include <winsock2.h>
+#include <windows.h>
+#include <conio.h>
+//#include <graphics.h>
+#include <dos.h>
+//#include "graphics.h>
 #define MAX 80
 #define PORT 12345
 #define SA struct sockaddr
 int marhale=0;
 char authtoken[100];
-int zajr()
+#include <stdio.h>
+//#include<iostream>
+#include <stdlib.h>
+#include <windows.h>
+#include <dos.h>
+#include <direct.h>
+//using namespace std;
+
+void SetColor(int ForgC)
+ {
+    WORD wColor;
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
+     {
+          wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+          SetConsoleTextAttribute(hStdOut, wColor);
+     }
+     return;
+ }
+
+ void ClearConsoleToColors(int ForgC, int BackC)
+ {
+    WORD wColor = ((BackC & 0x0F) << 4) + (ForgC & 0x0F);
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD coord = {0, 0};
+    DWORD count;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    SetConsoleTextAttribute(hStdOut, wColor);
+    if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
+     {
+          FillConsoleOutputCharacter(hStdOut, (TCHAR) 32, csbi.dwSize.X * csbi.dwSize.Y, coord, &count);
+          FillConsoleOutputAttribute(hStdOut, csbi.wAttributes, csbi.dwSize.X * csbi.dwSize.Y, coord, &count );
+          SetConsoleCursorPosition(hStdOut, coord);
+     }
+    return;
+}
+COORD coord={0,0}; // this is global variable
+                                   //center of axis is set to the top left cornor of the screen
+
+void gotoxy(int x,int y)
 {
+  	coord.X=x;
+ 	coord.Y=y;
+ 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+}
+int make_socket()
+{
+  //  ClearConsoleToColors(15,4);
+   // system("COLOR F2");
+    //cprintf("ll");
     int client_socket, server_socket;
     struct sockaddr_in servaddr, cli;
     WORD wVersionRequested;
@@ -39,7 +93,7 @@ int zajr()
         //printf("Socket successfully created..\n");
 
         // Assign IP and port
-        memset(&servaddr, 0, sizeof(servaddr));
+    memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     servaddr.sin_port = htons(PORT);
@@ -235,7 +289,7 @@ void chat(int server_socket,int user)
     //;
     //buffer[n++]='\n';
     //if (pio != 0)
-    server_socket=zajr();
+    server_socket=make_socket();
 
 
     // Send the buffer to server
@@ -386,8 +440,14 @@ void chat(int server_socket,int user)
     }
 }
 
+//gotoxy function
+
+
 int main()
 {
+
+    ClearConsoleToColors(10,9);
+
     int client_socket, server_socket;
     struct sockaddr_in servaddr, cli;
 
@@ -428,6 +488,7 @@ int main()
         exit(0);
     }
     else;
+    closesocket(client_socket);
     //	printf("Successfully connected to the server..\n");
     int user;
     char c;
@@ -435,39 +496,163 @@ int main()
     {
         if (marhale==0)
         {
+            ClearConsoleToColors(10,4);
+
+            //yellow();
             printf("Account Menu:\n");
             printf("1: Register\n");
             printf("2: Login\n");
             printf("3: Exit\n");
-            scanf("%d",&user);
+            gotoxy(15,1);
+            printf("<--");
+            int i = 1;
+            while (1)
+            {
+
+                char c,j;
+                //j = '\n';
+                c=_getch();
+                //printf(" c=%d ",j);
+                //system("pause");
+                if ( c == 72)
+                {
+
+                    if (i > 1 && i < 4)
+                    {
+                    gotoxy(15,i);
+                    printf("   ");
+                    gotoxy(15,--i);
+                    printf("<--");
+                    }
+
+                }
+                if ( c == 80)
+                {
+                    if (i >= 1 && i < 3)
+                    {
+                    gotoxy(15,i);
+                    printf("   ");
+                    gotoxy(15,++i);
+                    printf("<--");
+                    }
+                }
+                if (c == 75)
+                    break;
+
+            }
+            user = i ;
+            gotoxy(0,4);
+            //scanf("%d",&user);
             if (user == 3)
             {
                 closesocket(client_socket);
                 return 0;
             }
-            scanf("%c",&c);
+            //scanf("%c",&c);
             chat(client_socket,user);
+            char c;
+            scanf("%c",&c);
         }
         if (marhale==1)
         {
-
+            ClearConsoleToColors(10,6);
             printf("1: Create Channel\n");
             printf("2: Join channel\n");
             printf("3: Logout\n");
-            scanf("%d",&user);
-            scanf("%c",&c);
+            gotoxy(20,0);
+            printf("<--");
+            int i = 0;
+            while (1)
+            {
+
+                char c,j;
+                //j = '\n';
+                c=_getch();
+                //printf(" c=%d ",j);
+                //system("pause");
+                if ( c == 72)
+                {
+
+                    if (i > 0 && i < 3)
+                    {
+                    gotoxy(20,i);
+                    printf("   ");
+                    gotoxy(20,--i);
+                    printf("<--");
+                    }
+
+                }
+                if ( c == 80)
+                {
+                    if (i >= 0 && i < 2)
+                    {
+                    gotoxy(20,i);
+                    printf("   ");
+                    gotoxy(20,++i);
+                    printf("<--");
+                    }
+                }
+                if (c == 75)
+                    break;
+
+            }
+            gotoxy(0,4);
+            user = i + 1 ;
+            //scanf("%c",&c);
             chat(client_socket,user);
+            char c;
+            scanf("%c",&c);
         }
         if (marhale == 2)
         {
+            ClearConsoleToColors(10,19);
             //printf("Successfully connected to the server..\n");
             printf("1: Send Message\n");
             printf("2: Refresh\n");
             printf("3: Channel Members\n");
             printf("4: Leave Channel\n");
-            scanf("%d",&user);
-            scanf("%c",&c);
+            gotoxy(20,0);
+            printf("<--");
+            int i = 0;
+            while (1)
+            {
+
+                char c,j;
+                //j = '\n';
+                c=_getch();
+                //printf(" c=%d ",j);
+                //system("pause");
+                if ( c == 72)
+                {
+
+                    if (i > 0 && i < 4)
+                    {
+                    gotoxy(20,i);
+                    printf("   ");
+                    gotoxy(20,--i);
+                    printf("<--");
+                    }
+
+                }
+                if ( c == 80)
+                {
+                    if (i >= 0 && i < 4)
+                    {
+                    gotoxy(20,i);
+                    printf("   ");
+                    gotoxy(20,++i);
+                    printf("<--");
+                    }
+                }
+                if (c == 75)
+                    break;
+
+            }
+            gotoxy(0,5);
+            user = i + 1 ;
             chat(client_socket,user);
+              char c;
+            scanf("%c",&c);
         }
 
     }

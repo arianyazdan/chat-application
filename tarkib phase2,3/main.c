@@ -17,7 +17,7 @@ void arr(char * s);
 void additemtoarr (char * s, char *r);
 int server_socket, client_socket;
 int channelcheck(int sh);
-char ans[1000];
+char ans[10000];
 char auth[100];
 char auth_token[100];
 void reg(char *buffer);
@@ -581,13 +581,13 @@ void sendch(char * buffer)
     }
     if (flag == 1)
     {
-        char message[2000];
+        char message[20000];
         strncpy(message,buffer + 5,strlen(buffer)-36-4);
         message[strlen(buffer)-40]=0;
         printf("%s",message);
         char channel_name[100];
         strcpy(channel_name,yaroo[sh].channel_name_user);
-        char res[100];
+        char res[10000];
         obj(res);
         additemtoobj(res,"type","Succesfull");
         additemtoobj(res,"content","");
