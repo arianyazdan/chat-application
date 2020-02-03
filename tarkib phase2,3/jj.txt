@@ -13,3 +13,15 @@ sender server : arian Joined
 sender server : mamal Joined
 sender server : mamal leaved the channel
 sender server : arian Joined
+sender server : arian Joined
+sender server : arian leaved the channel
+sender server : arian Joined
+sender server : io Joined
+sender server : gg Joined
+sender server : uu Joined
+sender uu : salam 
+sender uu : kjjj 
+sender server : ll Joined
+sender server : yy Joined
+sender server : yy leaved the channel
+sender server : oi Joined

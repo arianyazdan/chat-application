@@ -14,3 +14,13 @@ sender server : ariankhan Joined
 sender server : ariankhan leaved the channel
 sender server : ariankhan Joined
 sender server : ariankhan leaved the channel
+sender server : arian Joined
+sender server : rr Joined
+sender server : arian Joined
+sender server : rr Joined
+sender server : mamal Joined
+sender mamal : hmessage sal 
+sender mamal : salam 
+sender mamal : salam 
+sender mamal : salam 
+sender mamal : salam 

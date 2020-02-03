@@ -30,6 +30,8 @@ void refresh(char*);
 void channel_members(char *);
 void leave(char*);
 void logout(char *);
+void search_member(char *);
+void search_message(char *);
 struct user
 {
     bool a;
@@ -147,7 +149,7 @@ void chat()
         join(buffer);
         strcpy(buffer,ans);
     }
-    else if (dastoor[0] == 's')
+    else if (strcmp(dastoor,"send") == 0)
     {
         sendch(buffer);
         strcpy(buffer,ans);
@@ -167,6 +169,15 @@ void chat()
     }else if (strcmp(dastoor,"logout") == 0)
     {
         logout(buffer);
+        strcpy(buffer,ans);
+    }else if (strcmp(dastoor,"searchmember") == 0)
+    {
+        printf("salam");
+        search_member(buffer);
+        strcpy(buffer,ans);
+    }else if (strcmp(dastoor,"searchmessage")==0)
+    {
+        search_message(buffer);
         strcpy(buffer,ans);
     }
     /*
@@ -805,11 +816,6 @@ void logout(char*buffer)
         strcpy(yaroo[sh].password,"0");
         strcpy(yaroo[sh].auth_tokenu,"0");
         char channel_name[100];
-        strcpy(channel_name,yaroo[sh].channel_name_user);
-        strcat(channel_name,".txt");
-        FILE *fptr = fopen(channel_name,"a+");
-        fprintf(fptr,"%s leaved the channel" , yaroo[sh].username);
-        fclose(fptr);
         char res[100];
         obj(res);
         additemtoobj(res,"type","Succesfull");
@@ -1032,6 +1038,127 @@ void additemtoarr (char * s, char *r)
             s[sh + strlen(r) + 3] = 0;
             sh = strlen(s);
         }
+    }
+}
+void search_member(char * buffer)
+{
+    char member[100];
+    char auth_tokenf[100];
+    sscanf(buffer  + 12,"%s %s",member,auth_tokenf);
+    int flag = 0;
+    int sh = 0;
+    for (int i = 0 ; i < 100 ; i++)
+    {
+        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf) == 0)
+        {
+            flag = 1;
+            sh = i;
+        }
+    }
+    if (flag == 1)
+    {
+        flag = 0;
+        for (int i = 0 ; i < 100 ; i++)
+        {
+            if (strcmp(yaroo[sh].channel_name_user,yaroo[i].channel_name_user) == 0)
+                if (strcmp(yaroo[i].username,member) == 0 )
+                    {
+                        flag = 1;
+                        printf("\n%s %s\n",member,yaroo[i].username);
+                    }
+        }
+        if (flag == 1)
+            strcpy(ans,"He is in the channel");
+        else
+            strcpy(ans,"He is not in the channel");
+    }
+    else
+    {
+            char res[1000];
+            obj(res);
+            additemtoobj(res,"type","Error");
+            additemtoobj(res,"content","Authtoken is not valid");
+            strcpy(ans ,res);
+    }
+
+}
+void search_message(char * buffer)
+{
+    char message1[100];
+    char res[1000];
+    obj(res);
+    char auth_tokenf[100];
+    sscanf(buffer  + 13,"%s %s",message1,auth_tokenf);
+    int flag = 0;
+    int sh = 0;
+    for (int i = 0 ; i < 100 ; i++)
+    {
+        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf) == 0)
+        {
+            flag = 1;
+            sh = i;
+        }
+    }
+    if (flag == 1)
+    {
+        char channel_name[100];
+        additemtoobj(res,"type","List");
+        char messagess[1000];
+        arr(messagess);
+        strcpy(channel_name,yaroo[sh].channel_name_user);
+        strcat(channel_name,".txt");
+        FILE *fptr = fopen(channel_name,"r");
+        while (true)
+        {
+            char c = fgetc(fptr);
+            printf("\nc=%d\n",c);
+            char message[1000];
+            char username[100];
+            char tmp[10];
+            if (c == EOF)
+            {
+                break;
+            }
+            else
+            {
+                ungetc(c,fptr);
+                fscanf(fptr,"%s",tmp);
+                fscanf(fptr,"%s %s %[^\n]s",username,tmp,message);
+                int i = 0 ;
+                while(1)
+                {
+                    char messageprime[100];
+                    sscanf(message+i,"%s",messageprime);
+                    printf("\n%s",messageprime);
+                    i+=strlen(messageprime);
+                    if (strcmp(message1,messageprime) == 0)
+                      {
+                          additemtoarr(messagess,message);
+                          printf("\n%s %s %s\n",message1,messageprime,message);
+                          break;
+                      }
+                    if (i >= strlen(message))
+                        break;
+                    i++;
+                }
+                c = fgetc(fptr);
+                printf("\nhoohoo");
+
+                // ans = cJSON_PrintUnformatted(emessage);
+                //cJSON_Delete(emessage);
+           //     printf("\n%s %s %s\n",username,tmp,message);
+            }
+        }
+        additemtoobj(res,"content",messagess);
+        strcpy(ans,res);
+    }
+    else
+    {
+            char res[1000];
+            obj(res);
+            additemtoobj(res,"type","Error");
+            additemtoobj(res,"content","Authtoken is not valid");
+            strcpy(ans ,res);
     }
 }
 

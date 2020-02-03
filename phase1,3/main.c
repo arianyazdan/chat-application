@@ -232,6 +232,8 @@ void chat(int server_socket,int user)
         printf("Write a massage\n");
         char message[1000];
         scanf("%[^\n]",message);
+        char c;
+        scanf("%c",&c);
         strcpy(buffer,"send ");
         strcat(buffer,message);
         strcat(buffer,", ");
@@ -280,6 +282,43 @@ void chat(int server_socket,int user)
                 break;
             }
     }
+    if (marhale == 2 && user == 6)
+    {
+
+        strcpy(buffer,"searchmember ");
+        char member[100];
+        printf("User name:\n");
+        scanf("%s",member);
+        char c;
+        scanf("%c",&c);
+        strcat(buffer,member);
+        strcat(buffer," ");
+        strcat(buffer,authtoken);
+        for (int i = 0 ; i <1000 ; i++)
+            if (buffer[i]=='\0')
+            {
+                buffer[i]='\n';
+                break;
+            }
+    }
+    if (marhale == 2 && user == 5)
+    {
+        strcpy(buffer,"searchmessage ");
+        char message[100];
+        printf("Message:\n");
+        scanf("%s",message);
+        char c;
+        scanf("%c",&c);
+        strcat(buffer,message);
+        strcat(buffer," ");
+        strcat(buffer,authtoken);
+        for (int i = 0 ; i <1000 ; i++)
+            if (buffer[i]=='\0')
+            {
+                buffer[i]='\n';
+                break;
+            }
+    }
     //printf("%s",buffer);
     //printf("Enter your message: ");
     n = 0;
@@ -294,12 +333,48 @@ void chat(int server_socket,int user)
 
     // Send the buffer to server
     send(server_socket, buffer, sizeof(buffer), 0);
-    printf("\nFrom client :%s \n",buffer);
+    //printf("\nFrom client :%s \n",buffer);
     memset(buffer, 0, sizeof(buffer));
 
     // Read the message from server and copy it to buffer
     recv(server_socket, buffer, sizeof(buffer), 0);
     printf("\nFrom server: %s\n", buffer);
+    if (marhale == 2 && user == 5)
+    {
+            int flag=0;
+            int sar=27;
+            printf("Messages:\n");
+            if (buffer[sar] != '}')
+            while(flag==0)
+            {
+                for ( int i = sar ; i <10000; i++ )
+                {
+                    if (buffer[i]=='"' && (buffer[i+1] == ',' || buffer[i+1] == ']'))
+                    {
+                        sar=i;
+                        break;
+                    }
+                    else
+                    {
+                        printf("%c",buffer[i]);
+                        sar=i;
+                    }
+                }
+                for (int i = sar ; i <sar+3; i++)
+                    if (buffer[i]==']' && buffer[i+1] == '}')
+                    {
+                        flag=1;
+                    }
+                sar+=3;
+                printf("\n");
+    }
+    }
+    if (marhale == 2 && user == 6)
+    {
+        char pasokh[1000];
+        sscanf(buffer,"%[\n]",pasokh);
+        printf("\n%s\n",buffer);
+    }
     if (marhale!=2)
     {
         if (marhale == 1 && user == 3 && buffer[9]!='E')
@@ -550,8 +625,7 @@ int main()
             }
             //scanf("%c",&c);
             chat(client_socket,user);
-            char c;
-            scanf("%c",&c);
+            system("pause");
         }
         if (marhale==1)
         {
@@ -600,8 +674,7 @@ int main()
             user = i + 1 ;
             //scanf("%c",&c);
             chat(client_socket,user);
-            char c;
-            scanf("%c",&c);
+            system("pause");
         }
         if (marhale == 2)
         {
@@ -611,6 +684,8 @@ int main()
             printf("2: Refresh\n");
             printf("3: Channel Members\n");
             printf("4: Leave Channel\n");
+            printf("5: Search Message\n");
+            printf("6: Search Member\n");
             gotoxy(20,0);
             printf("<--");
             int i = 0;
@@ -625,7 +700,7 @@ int main()
                 if ( c == 72)
                 {
 
-                    if (i > 0 && i < 4)
+                    if (i > 0 && i < 6)
                     {
                     gotoxy(20,i);
                     printf("   ");
@@ -636,7 +711,7 @@ int main()
                 }
                 if ( c == 80)
                 {
-                    if (i >= 0 && i < 4)
+                    if (i >= 0 && i < 5)
                     {
                     gotoxy(20,i);
                     printf("   ");
@@ -648,11 +723,11 @@ int main()
                     break;
 
             }
-            gotoxy(0,5);
+            gotoxy(0,6);
             user = i + 1 ;
             chat(client_socket,user);
-              char c;
-            scanf("%c",&c);
+
+            system("pause");
         }
 
     }
