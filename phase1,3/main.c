@@ -338,7 +338,7 @@ void chat(int server_socket,int user)
 
     // Read the message from server and copy it to buffer
     recv(server_socket, buffer, sizeof(buffer), 0);
-    printf("\nFrom server: %s\n", buffer);
+    //printf("\nFrom server: %s\n", buffer);
     if (marhale == 2 && user == 5)
     {
             int flag=0;
@@ -571,6 +571,7 @@ int main()
     {
         if (marhale==0)
         {
+            system("pause");
             ClearConsoleToColors(10,4);
 
             //yellow();
@@ -625,10 +626,11 @@ int main()
             }
             //scanf("%c",&c);
             chat(client_socket,user);
-            system("pause");
+
         }
         if (marhale==1)
         {
+            system("pause");
             ClearConsoleToColors(10,6);
             printf("1: Create Channel\n");
             printf("2: Join channel\n");
@@ -674,10 +676,11 @@ int main()
             user = i + 1 ;
             //scanf("%c",&c);
             chat(client_socket,user);
-            system("pause");
+
         }
         if (marhale == 2)
         {
+             system("pause");
             ClearConsoleToColors(10,19);
             //printf("Successfully connected to the server..\n");
             printf("1: Send Message\n");
@@ -727,7 +730,7 @@ int main()
             user = i + 1 ;
             chat(client_socket,user);
 
-            system("pause");
+
         }
 
     }

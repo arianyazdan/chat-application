@@ -1,6 +1,0 @@
-sender server : io Created pp
-sender io : salam 
-sender io : khoi 
-sender server : oo Joined
-sender oo : merc 
-sender oo : to khobi 

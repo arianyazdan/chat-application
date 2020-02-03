@@ -45,7 +45,7 @@ struct user
 
 };
 struct sockaddr_in server, client;
-struct user yaroo[1000];
+struct user users[1000];
 //nt server_socket, client_socket;
 //struct sockaddr_in server, client;
 int zajr()
@@ -205,7 +205,7 @@ void chat()
 // Driver function
 int main()
 {
-  //  printf("\n:\=%s\n",yaroo[1].password);
+  //  printf("\n:\=%s\n",users[1].password);
 
     strcpy(auth,"ABCDFGHIJKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz1234567890-=;.,kjsdhfsdkjf`");
 
@@ -226,7 +226,7 @@ int main()
 
 int  channelcheck(int sh)
 {
-    if (yaroo[sh].b == 1)
+    if (users[sh].b == 1)
     {
         return 1;
     }
@@ -304,7 +304,7 @@ void login(char * buffer)
     name[strlen(name)-1]='\0';
     for (int i = 0 ; i < 100 ; i++)
     {
-        if (strcmp(name,yaroo[i].username)== 0 && yaroo[i].a == 1)
+        if (strcmp(name,users[i].username)== 0 && users[i].a == 1)
         {
             fla = 1;
         }
@@ -367,7 +367,7 @@ void login(char * buffer)
         int sh = 0;
         for (int i = 0 ; i < 100 ; i++)
         {
-            if (yaroo[i].a==0)
+            if (users[i].a==0)
             {
                 sh = i;
                 break;
@@ -375,10 +375,10 @@ void login(char * buffer)
 
 
         }
-        yaroo[sh].a=1;
-        strcpy(yaroo[sh].username,name);
-        strcpy(yaroo[sh].password,pass);
-        strcpy(yaroo[sh].auth_tokenu,auth_token);
+        users[sh].a=1;
+        strcpy(users[sh].username,name);
+        strcpy(users[sh].password,pass);
+        strcpy(users[sh].auth_tokenu,auth_token);
          strcpy(ans ,res);
         //printf("%s",ans);
 
@@ -421,7 +421,7 @@ void create(char*buffer)
     channel_name[strlen(channel_name)-1]='\0';
     for (int i = 0 ; i < 100 ; i++)
     {
-        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf)==0)
+        if (strcmp(users[i].auth_tokenu,auth_tokenf)==0)
         {
             flag = 1;
             sh = i;
@@ -464,8 +464,8 @@ void create(char*buffer)
         else
         {
             fprintf(fptr,"%s\n",channel_name);
-            yaroo[sh].b=1;
-            strcpy(yaroo[sh].channel_name_user,channel_name);
+            users[sh].b=1;
+            strcpy(users[sh].channel_name_user,channel_name);
             //fprintf(fptr,"%s %s\n",name,pass);
             char res[100];
             obj(res);
@@ -476,7 +476,7 @@ void create(char*buffer)
             strcpy(channel_name1,channel_name);
             strcat(channel_name,".txt");
             FILE *fptr1= fopen(channel_name,"a+");
-            fprintf(fptr1,"sender server : %s Created %s\n",yaroo[sh].username,channel_name1);
+            fprintf(fptr1,"sender server : %s Created %s\n",users[sh].username,channel_name1);
             fclose(fptr1);
             fclose(fptr);
             printf("%s",ans);
@@ -507,7 +507,7 @@ void join(char *buffer)
     channel_name[strlen(channel_name)-1]='\0';
     for (int i = 0 ; i < 100 ; i++)
     {
-        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf)==0)
+        if (strcmp(users[i].auth_tokenu,auth_tokenf)==0)
         {
             flag = 1;
             sh = i;
@@ -549,8 +549,8 @@ void join(char *buffer)
         }
         else
         {
-            yaroo[sh].b=1;
-            strcpy(yaroo[sh].channel_name_user,channel_name);
+            users[sh].b=1;
+            strcpy(users[sh].channel_name_user,channel_name);
             char res[100];
             obj(res);
             additemtoobj(res,"type","Succesfull");
@@ -559,7 +559,7 @@ void join(char *buffer)
             printf("%s",ans);
             strcat(channel_name,".txt");
             FILE *fptr1 = fopen(channel_name,"a+");
-            fprintf(fptr1,"sender server : %s Joined\n",yaroo[sh].username);
+            fprintf(fptr1,"sender server : %s Joined\n",users[sh].username);
             fclose(fptr1);
             printf("%s",ans);
             // cJSON_Delete(res);
@@ -584,7 +584,7 @@ void sendch(char * buffer)
     int sh = 0;
     for (int i = 0 ; i < 100 ; i++)
     {
-        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf) == 0)
+        if (strcmp(users[i].auth_tokenu,auth_tokenf) == 0)
         {
             flag = 1;
             sh = i;
@@ -597,7 +597,7 @@ void sendch(char * buffer)
         message[strlen(buffer)-40]=0;
         printf("%s",message);
         char channel_name[100];
-        strcpy(channel_name,yaroo[sh].channel_name_user);
+        strcpy(channel_name,users[sh].channel_name_user);
         char res[10000];
         obj(res);
         additemtoobj(res,"type","Succesfull");
@@ -606,7 +606,7 @@ void sendch(char * buffer)
         printf("%s",ans);
         strcat(channel_name,".txt");
         FILE *fptr1 = fopen(channel_name,"a+");
-        fprintf(fptr1,"sender %s : %s \n",yaroo[sh].username,message);
+        fprintf(fptr1,"sender %s : %s \n",users[sh].username,message);
         fclose(fptr1);
         printf("%s",ans);
 
@@ -631,7 +631,7 @@ void refresh(char*buffer)
     int sh = 0;
     for (int i = 0 ; i < 100 ; i++)
     {
-        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf) == 0)
+        if (strcmp(users[i].auth_tokenu,auth_tokenf) == 0)
         {
             flag = 1;
             sh = i;
@@ -646,10 +646,10 @@ void refresh(char*buffer)
         arr(cmessage);
         additemtoobj(res,"type","List");
         char channel_name[100];
-        strcpy(channel_name,yaroo[sh].channel_name_user);
+        strcpy(channel_name,users[sh].channel_name_user);
         strcat(channel_name,".txt");
         FILE *fptr = fopen(channel_name,"a+");
-        fseek(fptr,yaroo[sh].fp,SEEK_SET);
+        fseek(fptr,users[sh].fp,SEEK_SET);
         while (true)
         {
             char c = fgetc(fptr);
@@ -680,7 +680,7 @@ void refresh(char*buffer)
             }
 
         }
-        yaroo[sh].fp=ftell(fptr);
+        users[sh].fp=ftell(fptr);
         fclose(fptr);
         additemtoobj(res,"message",cmessage);
          strcpy(ans ,res);
@@ -705,7 +705,7 @@ void channel_members(char * buffer)
     int sh = 0;
     for (int i = 0 ; i < 100 ; i++)
     {
-        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf) == 0)
+        if (strcmp(users[i].auth_tokenu,auth_tokenf) == 0)
         {
             flag = 1;
             sh = i;
@@ -720,9 +720,9 @@ void channel_members(char * buffer)
         additemtoobj(res,"type","List");
         for (int i = 0 ; i < 100 ; i++)
         {
-            if (strcmp(yaroo[i].channel_name_user,yaroo[sh].channel_name_user) == 0)
+            if (strcmp(users[i].channel_name_user,users[sh].channel_name_user) == 0)
             {
-                additemtoarr(channel_members1,yaroo[i].username);
+                additemtoarr(channel_members1,users[i].username);
             }
         }
         additemtoobj(res,"content",channel_members1);
@@ -747,7 +747,7 @@ void leave (char *buffer)
     int sh = 0;
     for (int i = 0 ; i < 100 ; i++)
     {
-        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf) == 0)
+        if (strcmp(users[i].auth_tokenu,auth_tokenf) == 0)
         {
             flag = 1;
             sh = i;
@@ -766,14 +766,14 @@ void leave (char *buffer)
     if (channelcheck(sh))
     {
         char channel_name[100];
-        strcpy(channel_name,yaroo[sh].channel_name_user);
+        strcpy(channel_name,users[sh].channel_name_user);
         strcat(channel_name,".txt");
         FILE *fptr = fopen(channel_name,"a+");
-        fprintf(fptr,"sender server : %s leaved the channel\n" , yaroo[sh].username);
+        fprintf(fptr,"sender server : %s leaved the channel\n" , users[sh].username);
         fclose(fptr);
-        yaroo[sh].b=0;
-        strcpy(yaroo[sh].channel_name_user,"0");
-        yaroo[sh].fp=0;
+        users[sh].b=0;
+        strcpy(users[sh].channel_name_user,"0");
+        users[sh].fp=0;
         //fprintf(fptr,"%s %s\n",name,pass);
         char res[1000];
         obj(res);
@@ -803,7 +803,7 @@ void logout(char*buffer)
     int sh = 0;
     for (int i = 0 ; i < 100 ; i++)
     {
-        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf) == 0)
+        if (strcmp(users[i].auth_tokenu,auth_tokenf) == 0)
         {
             flag = 1;
             sh = i;
@@ -811,10 +811,10 @@ void logout(char*buffer)
     }
     if (flag == 1)
     {
-        yaroo[sh].a = 0;
-        strcpy(yaroo[sh].username , "0");
-        strcpy(yaroo[sh].password,"0");
-        strcpy(yaroo[sh].auth_tokenu,"0");
+        users[sh].a = 0;
+        strcpy(users[sh].username , "0");
+        strcpy(users[sh].password,"0");
+        strcpy(users[sh].auth_tokenu,"0");
         char channel_name[100];
         char res[100];
         obj(res);
@@ -1049,7 +1049,7 @@ void search_member(char * buffer)
     int sh = 0;
     for (int i = 0 ; i < 100 ; i++)
     {
-        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf) == 0)
+        if (strcmp(users[i].auth_tokenu,auth_tokenf) == 0)
         {
             flag = 1;
             sh = i;
@@ -1060,11 +1060,11 @@ void search_member(char * buffer)
         flag = 0;
         for (int i = 0 ; i < 100 ; i++)
         {
-            if (strcmp(yaroo[sh].channel_name_user,yaroo[i].channel_name_user) == 0)
-                if (strcmp(yaroo[i].username,member) == 0 )
+            if (strcmp(users[sh].channel_name_user,users[i].channel_name_user) == 0)
+                if (strcmp(users[i].username,member) == 0 )
                     {
                         flag = 1;
-                        printf("\n%s %s\n",member,yaroo[i].username);
+                        printf("\n%s %s\n",member,users[i].username);
                     }
         }
         if (flag == 1)
@@ -1093,7 +1093,7 @@ void search_message(char * buffer)
     int sh = 0;
     for (int i = 0 ; i < 100 ; i++)
     {
-        if (strcmp(yaroo[i].auth_tokenu,auth_tokenf) == 0)
+        if (strcmp(users[i].auth_tokenu,auth_tokenf) == 0)
         {
             flag = 1;
             sh = i;
@@ -1105,7 +1105,7 @@ void search_message(char * buffer)
         additemtoobj(res,"type","List");
         char messagess[1000];
         arr(messagess);
-        strcpy(channel_name,yaroo[sh].channel_name_user);
+        strcpy(channel_name,users[sh].channel_name_user);
         strcat(channel_name,".txt");
         FILE *fptr = fopen(channel_name,"r");
         while (true)

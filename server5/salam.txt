@@ -103,3 +103,10 @@ sender arian : salam
 sender arian : khib 
 sender arian : ajkhs 
 sender server : google Joined
+sender server : arian Joined
+sender server : arian leaved the channel
+sender server : arian Joined
+sender server : arian leaved the channel
+sender server : arian Joined
+sender arian : salam 
+sender server : arian leaved the channel

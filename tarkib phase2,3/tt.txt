@@ -1,4 +1,0 @@
-sender server : khobi Created tt
-sender khobi : salam 
-sender khobi : khobi 
-sender khobi : chekhabar 

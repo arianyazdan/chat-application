@@ -1,2 +1,11 @@
-sender server : roozbeh Created ee
-sender roozbeh : asdasdk 
+sender server : arian Created ee
+sender arian : salam 
+sender server : gg Joined
+sender gg : salam 
+sender gg : khobi azizam 
+sender arian : merci to khobi? 
+sender arian : manam khob 
+sender server : gg leaved the channel
+sender server : arian leaved the channel
+sender server : gg Joined
+sender server : gg leaved the channel

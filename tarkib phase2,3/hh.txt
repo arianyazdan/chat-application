@@ -1,2 +1,0 @@
-sender server : io Joined
-sender server : io leaved the channel

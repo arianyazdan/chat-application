@@ -1,7 +1,0 @@
-sender server : rr Created arian
-sender rr : salam 
-sender server : arian Joined
-sender arian : khobi 
-sender arian : salam 
-sender server : rr leaved the channel
-sender server : arian leaved the channel

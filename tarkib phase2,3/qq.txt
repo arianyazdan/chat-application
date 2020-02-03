@@ -1,8 +1,0 @@
-sender server : 1 Created qq
-sender 1 : salam 
-sender 1 : khobi 
-sender 1 : kk 
-sender 1 : qoiweqowie 
-sender server : qq Joined
-sender qq : salam 
-sender qq : hmember  
